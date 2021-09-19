@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>This is the log file watcher</h1>
+
+    <div class="file" id="file">
+      <div class="lines" id="lines"></div>
+    </div>
+
+    <script>
+      const socket = new WebSocket("ws://localhost");
+
+      socket.onopen = function () {
+        console.log("WebSocket Client Connected");
+      };
+
+      socket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+        console.log(data);
+        const linesDiv = document.getElementById("lines");
+        data.lines.forEach((item) => {
+          const newLine = document.createElement("p");
+          newLine.innerText = item;
+          linesDiv.appendChild(newLine);
+        });
+      };
+    </script>
+  </body>
+</html>
